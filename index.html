@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="chat"></div>
+<input type="text" id="text">
+<button id="btn">Send</button>
+
+<script>
+    var name = prompt('Enter name:');
+    var ws = new WebSocket('ws://localhost:555/connws/');
+    document.getElementById('text').focus();
+
+    document.getElementById('text').onkeypress = function(e) {
+        if(e.keyCode === 13) {
+            document.getElementById('btn').click();
+        }
+    };
+
+
+    ws.onopen = () => {
+        console.log('connected');
+
+        document.getElementById('btn').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            var data = {
+                'text': document.getElementById('text').value,
+                'name': name
+            };
+
+            ws.send(JSON.stringify(data));
+            document.getElementById('text').value = '';
+        });
+    };
+
+    ws.onmessage = (e) => {
+        document.getElementById('chat').innerHTML += e.data;
+    };
+
+    ws.onerror = (e) => {
+        console.log(e);
+    };
+
+    ws.onclose = () => {
+        delete ws;
+    };
+</script>
+</body>
+</html>
