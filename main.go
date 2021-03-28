@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"time"
 
 	"golang.org/x/net/websocket"
 )
@@ -25,6 +26,14 @@ func index(w http.ResponseWriter, r *http.Request) {
 func connWS(ws *websocket.Conn) {
 	data := map[string]string{}
 	hub = append(hub, ws)
+	ch := make(chan time.Time)
+
+	go func() {
+		for {
+			ch <- time.Now()
+			time.Sleep(time.Second)
+		}
+	}()
 
 	for {
 		err := websocket.JSON.Receive(ws, &data)
@@ -39,8 +48,7 @@ func connWS(ws *websocket.Conn) {
 		message := fmt.Sprintf("%s: %s<br>", data["name"], data["text"])
 
 		for i := range hub {
-			err = websocket.Message.Send(hub[i], message)
-			if err != nil {
+			if err := websocket.Message.Send(hub[i], message); err != nil {
 				log.Println(err)
 			}
 		}
