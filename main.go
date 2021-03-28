@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/net/websocket"
 	"io"
 	"log"
 	"net/http"
+
+	"golang.org/x/net/websocket"
 )
 
 var hub = []*websocket.Conn{}
