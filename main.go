@@ -30,7 +30,9 @@ func connWS(ws *websocket.Conn) {
 		err := websocket.JSON.Receive(ws, &data)
 		if err != nil && err != io.EOF {
 			log.Println(err)
-			ws.Close()
+			if err := ws.Close(); err != nil {
+				log.Println(err)
+			}
 			break
 		}
 
