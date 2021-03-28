@@ -9,11 +9,17 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-var hub = []*websocket.Conn{}
+var hub []*websocket.Conn
 
 func main() {
+	http.HandleFunc("/", index)
 	http.Handle("/connws/", websocket.Handler(connWs))
-	log.Fatal(http.ListenAndServe(":555", nil))
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func index(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "index.html")
 }
 
 func connWs(ws *websocket.Conn) {

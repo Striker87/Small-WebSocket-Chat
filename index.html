@@ -12,7 +12,7 @@
 
 <script>
     let name = prompt('Enter name:');
-    let ws = new WebSocket('ws://localhost:555/connws/');
+    let ws = new WebSocket('ws://localhost:8080/connws/');
     document.getElementById('text').focus();
 
     document.getElementById('text').onkeypress = function(e) {
