@@ -11,8 +11,8 @@
 <button id="btn">Send</button>
 
 <script>
-    var name = prompt('Enter name:');
-    var ws = new WebSocket('ws://localhost:555/connws/');
+    let name = prompt('Enter name:');
+    let ws = new WebSocket('ws://localhost:555/connws/');
     document.getElementById('text').focus();
 
     document.getElementById('text').onkeypress = function(e) {
@@ -28,7 +28,7 @@
         document.getElementById('btn').addEventListener('click', (e) => {
             e.preventDefault();
 
-            var data = {
+            let data = {
                 'text': document.getElementById('text').value,
                 'name': name
             };
