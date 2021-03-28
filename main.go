@@ -13,7 +13,7 @@ var hub []*websocket.Conn
 
 func main() {
 	http.HandleFunc("/", index)
-	http.Handle("/connws/", websocket.Handler(connWs))
+	http.Handle("/ws/", websocket.Handler(connWS))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
@@ -22,7 +22,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "index.html")
 }
 
-func connWs(ws *websocket.Conn) {
+func connWS(ws *websocket.Conn) {
 	data := map[string]string{}
 	hub = append(hub, ws)
 
