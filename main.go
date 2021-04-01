@@ -41,6 +41,7 @@ func connWS(ws *websocket.Conn) {
 		for i := range hub {
 			if err := websocket.Message.Send(hub[i], message); err != nil {
 				log.Println(err)
+				return
 			}
 		}
 	}
